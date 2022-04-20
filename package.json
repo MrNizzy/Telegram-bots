@@ -1,0 +1,23 @@
+{
+  "name": "telegram_bot",
+  "version": "1.0.0",
+  "description": "Descargar videos de youtube",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./index.js"
+  },
+  "author": "MrNizzy",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "js-yaml": "^4.1.0",
+    "telegraf": "^4.7.0",
+    "youtube-dl-wrap": "^2.1.1",
+    "ytdl-core": "^4.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
