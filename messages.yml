@@ -6,7 +6,8 @@ es:
   videoNoFound: "❌ Error al enviar el video. Intenta descargarlo nuevamente o espera unos minutos para volver a usar el comando /enviar"
   videoNoExist: "No existe ningún video 🤯. Primero envíame una URL. "
   incorrectURL: "URL incorrecta 🌐"
-  limitSize: "El video supera los 50 mbs y no puede ser enviado. 😥"
+  limitTelegram: "⚠ El video supera los 50 Mbs, pero puedes descargarlo en: "
+  limitSize: "El video supera los 2 Gbs y no puede ser enviado. 😥"
   languageSet: "Se ha establecido el idioma español. ✅"
   help: "Este bot te permite descargar videos de YouTube no mayor a 50 mbs. \n\nINSTRUCCIONES \n1. Envía una URL. \n2. Espera mientras se procesa el video. \n3. Usa el comando /enviar para obtener el video. \n\nSi necesitas más información. Puedes unirte al canal de @MrNizzyAppsSup"
 en:
@@ -17,6 +18,7 @@ en:
   videoNoFound: "❌ Error sending the video. Try to download it again or wait a few minutes to use the /enviar command again"
   videoNoExist: "There is no video 🤯. First send me a URL."
   incorrectURL: "Incorrect URL 🌐"
+  limitTelegram: "⚠ The video exceeds 50 Mbs, but you can download it at:"
   limitSize: "The video exceeds 50 mbs and cannot be sent. 😥"
   languageSet: "The English language has been established. ✅"
   help: "This bot allows you to download YouTube videos no larger than 50 mbs. \n\nINSTRUCTIONS \n1. Submit a URL. \n2. Please wait while the video is processed. \n3. Use the /enviar command to get the video. \n\nIf you need more information. You can join @MrNizzyAppsSup channel"

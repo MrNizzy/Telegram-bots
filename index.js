@@ -68,10 +68,10 @@ bot.url((context) => {
 
 bot.command('enviar', (context) => {
   let language = context.from?.language_code
-  let vidPath = `./vid-${context.from?.id}.mp4`
+  let vidPath = `./bot-youtube/vid-${context.from?.id}.mp4`
   let vidInfo = fs.statSync(vidPath)
   let fileSizeMB = vidInfo.size / (1024 * 1024)
-  if (fileSizeMB < 50) {
+  if (fileSizeMB < 50 && fileSizeMB > 0) {
     context.reply(
       language === 'es'
         ? messages.es.videoSend
@@ -81,16 +81,16 @@ bot.command('enviar', (context) => {
     )
     console.log(`ID: ${context.from?.id} - Enviando video.`)
     context.replyWithVideo({
-      source: fs.createReadStream(`./vid-${context.from?.id}.mp4`),
+      source: fs.createReadStream(`./bot-youtube/vid-${context.from?.id}.mp4`),
       message: 'No olvides subscribirte a @MrNizzyApps',
     })
   } else if (fileSizeMB >= 50) {
     context.reply(
       language === 'es'
-        ? messages.es.limitSize
+        ? messages.es.limitTelegram+`http://example.com/bot-youtube/vid-${context.from?.id}.mp4` // Modify your route
         : language === 'en'
-        ? messages.en.limitSize
-        : messages.en.limitSize,
+        ? messages.en.limitTelegram
+        : messages.en.limitTelegram,
     )
   } else {
     context.reply(
