@@ -10,7 +10,9 @@
 
 Para instalar las dependencias de NodeJs, puedes ejecutar el siguiente comando desde la consola:
 
-``npm install``
+```console
+npm install
+```
 
 #### Recomendación
 
@@ -18,14 +20,30 @@ Instalar nodemon: `npm install -g nodemon` luego con `nodemon ./index.js` lanzar
 
 ### Creando el archivo de variables.yml
 
-En la carpeta raíz, es necesario crear un archivo variables.yml para poder importar el token del bot que hemos creado.
+En la carpeta raíz, es necesario crear un archivo `variables.yml` para poder importar el token del bot que hemos creado.
 
-``token : "Aqui-va-el-token"``
+```yaml
+token : "Aqui-va-el-token"
+```
 
 ## Ejecución
 
 Para ejecutar el bot podemos usar uno de los dos comandos:
 
-``node ./index.js``
+```console
+node ./index.js
+```
 
-``nodemon ./index.js`` ó ``npm run dev`` Solo si tenemos nodemon instalado.
+Solo si tenemos instalado nodemon usamos:
+
+```console
+nodemon ./index.js
+```
+
+O podemos ejecutar el entorno de desarrollo configurado previamente en el proyecto:
+
+```console
+npm run dev
+```
+
+Si tienes alguna duda puedes unirte a mi [canal de telegram](https://t.me/MrNizzyApps).
