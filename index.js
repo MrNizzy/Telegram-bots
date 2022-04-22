@@ -11,7 +11,6 @@ const bot = new Telegraf(variables.token)
 const AnimationUrl1 = 'https://media.giphy.com/media/ya4eevXU490Iw/giphy.gif'
 const AnimationUrl2 = 'https://media.giphy.com/media/LrmU6jXIjwziE/giphy.gif'
 
-
 bot.command('start', (context) => {
   let language = context.from?.language_code
   context.reply(
@@ -45,14 +44,62 @@ bot.url((context) => {
       )
       ytdl(URL, {
         format: 'mp4',
-      }).pipe(fs.createWriteStream(`vid-${context.from?.id}.mp4`))
-      context.reply(
-        language === 'es'
-          ? messages.es.videoDownloadSuccess
-          : language === 'en'
-          ? messages.en.videoDownloadSuccess
-          : messages.en.videoDownloadSuccess,
-      )
+      })
+        .pipe(fs.createWriteStream(`./bot-youtube/vid-${context.from?.id}.mp4`))
+        .on('finish', () => {
+          let vidPath = `./bot-youtube/vid-${context.from?.id}.mp4`
+          let vidInfo = fs.statSync(vidPath)
+          let fileSizeMB = vidInfo.size / (1024 * 1024)
+          context.reply(
+            language === 'es'
+              ? messages.es.videoDownloadSuccess
+              : language === 'en'
+              ? messages.en.videoDownloadSuccess
+              : messages.en.videoDownloadSuccess,
+          )
+          if (fileSizeMB < 50 && fileSizeMB > 0) {
+            context.reply(
+              language === 'es'
+                ? messages.es.videoSend
+                : language === 'en'
+                ? messages.en.videoSend
+                : messages.en.videoSend,
+            )
+            console.log(`ID: ${context.from?.id} - Enviando video.`)
+            context.replyWithVideo({
+              source: fs.createReadStream(
+                `./bot-youtube/vid-${context.from?.id}.mp4`,
+              ),
+              message: 'No olvides subscribirte a @MrNizzyApps',
+            })
+          } else if (fileSizeMB >= 50) {
+            context.reply(
+              language === 'es'
+                ? messages.es.limitTelegram +
+                    `http://example.com/bot-youtube/vid-${context.from?.id}.mp4` // Modify your route
+                : language === 'en'
+                ? messages.en.limitTelegram
+                : messages.en.limitTelegram,
+            )
+          } else {
+            context.reply(
+              language === 'es'
+                ? messages.es.videoNoFound
+                : language === 'en'
+                ? messages.en.videoNoFound
+                : messages.en.videoNoFound,
+            )
+          }
+        })
+        .on('error', () => {
+          context.reply(
+            language === 'es'
+              ? messages.es.errorDownload
+              : language === 'en'
+              ? messages.en.errorDownload
+              : messages.en.errorDownload,
+          )
+        })
     })
   } else {
     console.log('URL incorrecta por usuario.')
@@ -62,43 +109,6 @@ bot.url((context) => {
         : language === 'en'
         ? messages.en.incorrectURL
         : messages.en.incorrectURL,
-    )
-  }
-})
-
-bot.command('enviar', (context) => {
-  let language = context.from?.language_code
-  let vidPath = `./bot-youtube/vid-${context.from?.id}.mp4`
-  let vidInfo = fs.statSync(vidPath)
-  let fileSizeMB = vidInfo.size / (1024 * 1024)
-  if (fileSizeMB < 50 && fileSizeMB > 0) {
-    context.reply(
-      language === 'es'
-        ? messages.es.videoSend
-        : language === 'en'
-        ? messages.en.videoSend
-        : messages.en.videoSend,
-    )
-    console.log(`ID: ${context.from?.id} - Enviando video.`)
-    context.replyWithVideo({
-      source: fs.createReadStream(`./bot-youtube/vid-${context.from?.id}.mp4`),
-      message: 'No olvides subscribirte a @MrNizzyApps',
-    })
-  } else if (fileSizeMB >= 50) {
-    context.reply(
-      language === 'es'
-        ? messages.es.limitTelegram+`http://example.com/bot-youtube/vid-${context.from?.id}.mp4` // Modify your route
-        : language === 'en'
-        ? messages.en.limitTelegram
-        : messages.en.limitTelegram,
-    )
-  } else {
-    context.reply(
-      language === 'es'
-        ? messages.es.videoNoFound
-        : language === 'en'
-        ? messages.en.videoNoFound
-        : messages.en.videoNoFound,
     )
   }
 })
