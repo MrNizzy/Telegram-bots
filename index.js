@@ -1,4 +1,4 @@
-const { Telegraf, Markup } = require('telegraf')
+const { Telegraf } = require('telegraf')
 const fs = require('fs')
 const ytdl = require('ytdl-core')
 const yaml = require('js-yaml')
@@ -8,8 +8,81 @@ const variables = yaml.load(fs.readFileSync('./variables.yml', 'utf8'))
 
 const bot = new Telegraf(variables.token)
 
-const AnimationUrl1 = 'https://media.giphy.com/media/ya4eevXU490Iw/giphy.gif'
-const AnimationUrl2 = 'https://media.giphy.com/media/LrmU6jXIjwziE/giphy.gif'
+function downloadVideo(URL, context) {
+  let language = context.from?.language_code
+  ytdl.getBasicInfo(URL).then((info) => {
+    console.log(
+      'ID: ' +
+        context.from?.id +
+        ' - Descargando el video - ' +
+        info.videoDetails.title,
+    )
+    ytdl(URL, {
+      format: 'mp4',
+    })
+      .pipe(
+        fs.createWriteStream(`./bot-youtube/${info.videoDetails.title}.mp4`),
+      )
+      .on('finish', () => {
+        let vidPath = `./bot-youtube/${info.videoDetails.title}.mp4`
+        let vidInfo = fs.statSync(vidPath)
+        let fileSizeMB = vidInfo.size / (1024 * 1024)
+
+        context.reply(
+          language === 'es'
+            ? messages.es.videoDownloadSuccess
+            : language === 'en'
+            ? messages.en.videoDownloadSuccess
+            : messages.en.videoDownloadSuccess,
+        )
+
+        if (fileSizeMB < 50 && fileSizeMB > 0) {
+          context.reply(
+            language === 'es'
+              ? messages.es.videoSend
+              : language === 'en'
+              ? messages.en.videoSend
+              : messages.en.videoSend,
+          )
+
+          console.log(`ID: ${context.from?.id} - Enviando video.`)
+
+          context.replyWithVideo({
+            source: fs.createReadStream(
+              `./bot-youtube/${info.videoDetails.title}.mp4`,
+            ),
+            message: 'No olvides subscribirte a @MrNizzyApps',
+          })
+        } else if (fileSizeMB >= 50) {
+          context.reply(
+            language === 'es'
+              ? messages.es.limitTelegram +
+                  `http://example.com/bot-youtube/${info.videoDetails.title}.mp4` // Modify your route
+              : language === 'en'
+              ? messages.en.limitTelegram
+              : messages.en.limitTelegram,
+          )
+        } else {
+          context.reply(
+            language === 'es'
+              ? messages.es.videoNoFound
+              : language === 'en'
+              ? messages.en.videoNoFound
+              : messages.en.videoNoFound,
+          )
+        }
+      })
+      .on('error', () => {
+        context.reply(
+          language === 'es'
+            ? messages.es.errorDownload
+            : language === 'en'
+            ? messages.en.errorDownload
+            : messages.en.errorDownload,
+        )
+      })
+  })
+}
 
 bot.command('start', (context) => {
   let language = context.from?.language_code
@@ -35,72 +108,7 @@ bot.url((context) => {
         : messages.en.videoProcess,
     )
     console.log(`ID: ${context.from?.id} - Procesando video...`)
-    ytdl.getBasicInfo(URL).then((info) => {
-      console.log(
-        'ID: ' +
-          context.from?.id +
-          ' - Descargando el video - ' +
-          info.videoDetails.title,
-      )
-      ytdl(URL, {
-        format: 'mp4',
-      })
-        .pipe(fs.createWriteStream(`./bot-youtube/vid-${context.from?.id}.mp4`))
-        .on('finish', () => {
-          let vidPath = `./bot-youtube/vid-${context.from?.id}.mp4`
-          let vidInfo = fs.statSync(vidPath)
-          let fileSizeMB = vidInfo.size / (1024 * 1024)
-          context.reply(
-            language === 'es'
-              ? messages.es.videoDownloadSuccess
-              : language === 'en'
-              ? messages.en.videoDownloadSuccess
-              : messages.en.videoDownloadSuccess,
-          )
-          if (fileSizeMB < 50 && fileSizeMB > 0) {
-            context.reply(
-              language === 'es'
-                ? messages.es.videoSend
-                : language === 'en'
-                ? messages.en.videoSend
-                : messages.en.videoSend,
-            )
-            console.log(`ID: ${context.from?.id} - Enviando video.`)
-            context.replyWithVideo({
-              source: fs.createReadStream(
-                `./bot-youtube/vid-${context.from?.id}.mp4`,
-              ),
-              message: 'No olvides subscribirte a @MrNizzyApps',
-            })
-          } else if (fileSizeMB >= 50) {
-            context.reply(
-              language === 'es'
-                ? messages.es.limitTelegram +
-                    `http://example.com/bot-youtube/vid-${context.from?.id}.mp4` // Modify your route
-                : language === 'en'
-                ? messages.en.limitTelegram
-                : messages.en.limitTelegram,
-            )
-          } else {
-            context.reply(
-              language === 'es'
-                ? messages.es.videoNoFound
-                : language === 'en'
-                ? messages.en.videoNoFound
-                : messages.en.videoNoFound,
-            )
-          }
-        })
-        .on('error', () => {
-          context.reply(
-            language === 'es'
-              ? messages.es.errorDownload
-              : language === 'en'
-              ? messages.en.errorDownload
-              : messages.en.errorDownload,
-          )
-        })
-    })
+    downloadVideo(URL, context)
   } else {
     console.log('URL incorrecta por usuario.')
     context.reply(
@@ -123,22 +131,6 @@ bot.command('help', (context) => {
       : messages.en.help,
   )
 })
-
-bot.command('edit_media', (ctx) =>
-  ctx.replyWithAnimation(
-    AnimationUrl1,
-    Markup.inlineKeyboard([
-      Markup.button.callback('Change media', 'swap_media'),
-    ]),
-  ),
-)
-
-bot.action('swap_media', (ctx) =>
-  ctx.editMessageMedia({
-    type: 'animation',
-    media: AnimationUrl2,
-  }),
-)
 
 bot.launch()
 
