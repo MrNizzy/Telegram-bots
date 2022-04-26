@@ -11,18 +11,5 @@ es:
   languageSet: "Se ha establecido el idioma español. ✅"
   errorDownload: "❌ Ha ocurrido un error al procesar el video. Inténtalo de nuevo."
   help: "Este bot te permite descargar videos de YouTube no mayor a 50 mbs. \n\nINSTRUCCIONES \n1. Envía una URL. \n2. Espera mientras se procesa el video. \n\nSi necesitas más información. Puedes unirte al canal de @MrNizzyAppsSup"
-en:
-  start: "Hello, I'm a bot to download videos from YouTube 🎈 \nSend me a YouTube URL to get started. \nUse /help for more information."
-  videoProcess: "The video is being processed. \nPlease wait..."
-  videoDownloadSuccess: "The video has been successfully processed 🤩"
-  videoSend: "Sending video... Please be patient."
-  videoNoFound: "❌ Error sending the video. Try to download it again or wait a few minutes to use the /enviar command again"
-  videoNoExist: "There is no video 🤯. First send me a URL."
-  incorrectURL: "Incorrect URL 🌐"
-  limitTelegram: "⚠ The video exceeds 50 Mbs, but you can download it at:"
-  limitSize: "The video exceeds 50 mbs and cannot be sent. 😥"
-  languageSet: "The English language has been established. ✅"
-  errorDownload: "❌ An error occurred while processing the video. Try again."
-  help: "This bot allows you to download YouTube videos no larger than 50 mbs. \n\nINSTRUCTIONS \n1. Submit a URL. \n2. Please wait while the video is processed. \n\nIf you need more information. You can join @MrNizzyAppsSup channel"
 error:
   errorLanguage: "Error con el idioma. Contacta al desarrollador en @MrNizzyApps ☠"
