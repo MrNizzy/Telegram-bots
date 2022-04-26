@@ -1,9 +1,9 @@
 es:
-  start: "Hola, soy un bot para descargar videos de YouTube 🎈 \nEnvíame una URL de YouTube para empezar. \nUsa /help para más información."
+  start: "Hola, soy un bot para descargar videos de YouTube 🎈 \nEnvíame una URL de YouTube para empezar."
   videoProcess: "Se está procesando el video. \nPor favor espere..."
   videoDownloadSuccess: "Se ha procesado correctamente el video 🤩"
   videoSend: "Enviando video... Por favor, sé paciente."
-  videoNoFound: "❌ Error al enviar el video. Intenta descargarlo nuevamente o espera unos minutos para volver a usar el comando /enviar"
+  videoNoFound: "❌ Error al enviar el video."
   videoNoExist: "No existe ningún video 🤯. Primero envíame una URL. "
   incorrectURL: "URL incorrecta 🌐"
   limitTelegram: "⚠ El video supera los 50 Mbs, pero puedes descargarlo en: "
