@@ -10,6 +10,6 @@ es:
   limitSize: "El video supera los 2 Gbs y no puede ser enviado. 😥"
   languageSet: "Se ha establecido el idioma español. ✅"
   errorDownload: "❌ Ha ocurrido un error al procesar el video. Inténtalo de nuevo."
-  help: "Este bot te permite descargar videos de YouTube no mayor a 50 mbs. \n\nINSTRUCCIONES \n1. Envía una URL. \n2. Espera mientras se procesa el video. \n\nSi necesitas más información. Puedes unirte al canal de @MrNizzyAppsSup"
+  help: "Este bot te permite descargar videos de YouTube no mayor a 50 mbs. \n\nINSTRUCCIONES \n1. Envía una URL. \n2. Espera mientras se procesa el video. \n\nSi necesitas más información. Puedes unirte al canal de @MrNizzySup"
 error:
-  errorLanguage: "Error con el idioma. Contacta al desarrollador en @MrNizzyApps ☠"
+  errorLanguage: "Error con el idioma. Contacta al desarrollador en @MrNizzySup ☠"
