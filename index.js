@@ -1,3 +1,4 @@
+/* Importing the modules. */
 const { Telegraf } = require('telegraf')
 const fs = require('fs')
 const ytdl = require('ytdl-core')
@@ -5,19 +6,27 @@ const yaml = require('js-yaml')
 const Path = require('path')
 const translate = require('translate-google')
 
-// Variables
+/* It's importing the modules, and it's creating the bot. */
 const messages = yaml.load(fs.readFileSync('./messages.yml', 'utf8'))
 const variables = yaml.load(fs.readFileSync('./variables.yml', 'utf8'))
-
 const bot = new Telegraf(variables.token)
 const ctx = bot.context
 
-// Return (true or false)
+/**
+ * It checks if a file exists in the current directory.
+ * @param pathFile - The path to the file you want to check.
+ * @returns A boolean value.
+ */
 function fileExist(pathFile) {
   const path = Path.join(__dirname, pathFile)
   return fs.existsSync(path)
 }
 
+/**
+ * It downloads a video from YouTube, then checks if the video is less than 50MB, if it is, it sends it
+ * to the user, if it's not, it sends a link to the video.
+ * @param URL - The URL of the video you want to download.
+ */
 function downloadVideo(URL) {
   let language = ctx.from?.language_code
   ytdl.getBasicInfo(URL).then((info) => {
@@ -116,6 +125,7 @@ function downloadVideo(URL) {
   })
 }
 
+/* It's a command that sends a message to the user. */
 bot.command('start', (context) => {
   let language = context.from?.language_code
   translate(messages.es.start, { from: 'es', to: language })
@@ -128,6 +138,8 @@ bot.command('start', (context) => {
     })
 })
 
+/* It's a function that checks if the URL is valid, if it is, it checks if the video is already
+downloaded, if it is, it sends it to the user, if it's not, it downloads it. */
 bot.url((context) => {
   let language = context.from?.language_code
   let URL = context.message.text
@@ -202,6 +214,7 @@ bot.url((context) => {
   }
 })
 
+/* It's a command that sends a message to the user. */
 bot.command('help', (context) => {
   let language = context.from?.language_code
   translate(messages.es.help, { from: 'es', to: language })
@@ -214,7 +227,9 @@ bot.command('help', (context) => {
     })
 })
 
+/* It's starting the bot. */
 bot.launch()
 
+/* It's a function that stops the bot when you press Ctrl + C. */
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
