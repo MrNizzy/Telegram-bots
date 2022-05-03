@@ -26,3 +26,6 @@ variables.yml
 *.mp4
 *.py
 *.png
+*.mp3
+*.jpg
+test.js
